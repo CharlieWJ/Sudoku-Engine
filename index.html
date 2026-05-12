@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SUDOKU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<button class="theme-toggle" id="themeToggle" title="Toggle light/dark mode">☀️</button>
+
+<div class="container">
+  <header>
+    <h1>SUDOKU</h1>
+  </header>
+  <p class="tagline">Logic puzzle generator — fill 1–9 in every row, column &amp; box</p>
+
+  <div class="difficulty-row">
+    <button class="diff-btn active" data-diff="easy">Easy</button>
+    <button class="diff-btn" data-diff="medium">Medium</button>
+    <button class="diff-btn" data-diff="hard">Hard</button>
+    <button class="diff-btn" data-diff="pro">Pro</button>
+    <button class="diff-btn" data-diff="expert">Expert</button>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="newBtn">New Puzzle</button>
+    <button class="btn" id="checkBtn">Check</button>
+    <button class="btn" id="hintBtn">Hint</button>
+    <button class="btn" id="undoBtn">Undo</button>
+    <button class="btn btn-solve" id="solveBtn">Solve</button>
+  </div>
+
+  <div class="grid-wrap">
+    <div class="grid" id="grid"></div>
+  </div>
+
+  <div class="numpad" id="numpad"></div>
+
+  <div class="bottom-row">
+    <button class="toggle-notes" id="notesToggle">Notes: Off</button>
+    <div class="timer-wrap">
+      <div class="timer" id="timer">00:00</div>
+      <button class="toggle-setting" id="timerToggle" title="Toggle timer">⏱</button>
+    </div>
+  </div>
+
+  <div class="settings-row">
+    <button class="toggle-setting" id="strikesToggle">Strikes: Off</button>
+    <div class="strikes-display" id="strikesDisplay" style="display:none">
+      <span class="strike-pip" id="pip1">●</span>
+      <span class="strike-pip" id="pip2">●</span>
+      <span class="strike-pip" id="pip3">●</span>
+    </div>
+    <div class="score-display">
+      <span class="score-label">Score</span>
+      <span class="score-value" id="scoreValue">0</span>
+    </div>
+  </div>
+
+  <div class="status" id="status"></div>
+  <div class="hint-banner" id="hintBanner">
+    <div class="hint-strategy" id="hintStrategy"></div>
+    <div class="hint-desc" id="hintDesc"></div>
+  </div>
+</div>
+
+<div class="win-overlay" id="winOverlay">
+  <div class="win-title">SOLVED!</div>
+  <div class="win-sub" id="winTime"></div>
+  <div class="win-sub" id="winScore" style="color:var(--accent); margin-top:4px"></div>
+  <button class="btn btn-primary" onclick="document.getElementById('winOverlay').classList.remove('show'); generatePuzzle();" style="margin-top:16px">New Puzzle</button>
+</div>
+
+<div class="win-overlay" id="gameOverOverlay">
+  <div class="win-title" style="color:var(--error)">GAME OVER</div>
+  <div class="win-sub">Three strikes — better luck next time.</div>
+  <div class="win-sub" id="gameOverScore" style="color:var(--accent); margin-top:4px"></div>
+  <button class="btn btn-primary" onclick="document.getElementById('gameOverOverlay').classList.remove('show'); generatePuzzle();" style="margin-top:16px">Try Again</button>
+</div>
+
+<div class="cheers-overlay" id="cheersOverlay"></div>
+
+<!--
+  Script load order matters — each file depends on symbols defined before it:
+    1. engine.js   — pure puzzle logic, no dependencies
+    2. state.js    — shared variables, depends on nothing
+    3. render.js   — DOM helpers, reads state
+    4. scoring.js  — score logic, reads state + render
+    5. hints.js    — strategy engine, reads state + render + game (removeNoteFromPeers)
+    6. game.js     — game flow, ties everything together
+    7. init.js     — event wiring + boot, runs last
+-->
+<script src="js/engine.js"></script>
+<script src="js/state.js"></script>
+<script src="js/render.js"></script>
+<script src="js/scoring.js"></script>
+<script src="js/hints.js"></script>
+<script src="js/game.js"></script>
+<script src="js/init.js"></script>
+
+</body>
+</html>
