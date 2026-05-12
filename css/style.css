@@ -278,6 +278,8 @@ h1 {
 }
 .num-btn:hover { background: var(--highlight); border-color: var(--accent); color: var(--accent); }
 .num-btn.erase { font-size: 11px; letter-spacing: 1px; color: var(--muted); }
+.num-btn.exhausted { opacity: 0.25; cursor: not-allowed; pointer-events: none; }
+.num-btn.exhausted:hover { background: var(--surface2); border-color: var(--border); color: var(--text); }
 
 /* Bottom row */
 .bottom-row {

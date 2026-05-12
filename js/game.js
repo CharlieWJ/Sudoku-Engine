@@ -78,10 +78,20 @@ function solvePuzzle() {
 
 // ─── Input handling ───────────────────────────────────────────────────────────
 
+function isExhausted(n) {
+  let count = 0;
+  for (let r = 0; r < 9; r++)
+    for (let c = 0; c < 9; c++)
+      if (userBoard[r][c] === n && userBoard[r][c] === solution[r][c])
+        count++;
+  return count === 9;
+}
+
 function enterNum(n) {
   if (!selected || solved) return;
   const [r, c] = selected;
   if (puzzle[r][c] !== 0) return;
+  if (!notesMode && isExhausted(n)) return;
   const idx = r * 9 + c;
   hideHintBanner();
 

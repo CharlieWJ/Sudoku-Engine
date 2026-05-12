@@ -73,6 +73,7 @@ function renderGrid() {
       }
     }
   });
+  updateNumpad();
 }
 
 function buildNumpad() {
@@ -81,10 +82,23 @@ function buildNumpad() {
   for (let n = 1; n <= 9; n++) {
     const btn = document.createElement('button');
     btn.className = 'num-btn';
+    btn.dataset.num = n;
     btn.textContent = n;
     btn.addEventListener('click', () => enterNum(n));
     np.appendChild(btn);
   }
+}
+
+function updateNumpad() {
+  const counts = new Array(10).fill(0);
+  for (let r = 0; r < 9; r++)
+    for (let c = 0; c < 9; c++)
+      if (userBoard[r][c] !== 0 && userBoard[r][c] === solution[r][c])
+        counts[userBoard[r][c]]++;
+  document.querySelectorAll('.num-btn[data-num]').forEach(btn => {
+    const n = +btn.dataset.num;
+    btn.classList.toggle('exhausted', counts[n] === 9);
+  });
 }
 
 function selectCell(r, c) {
